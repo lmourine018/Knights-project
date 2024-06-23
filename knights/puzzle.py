@@ -13,6 +13,12 @@ CKnave = Symbol("C is a Knave")
 # A says "I am both a knight and a knave."
 knowledge0 = And(
     # TODO
+    Or(AKnight, AKnave),
+    Not(And(AKnight, AKnave)),
+    # If A is a Knight, then A's statement is true
+    Implication(AKnight, And(AKnight, AKnave)),
+    # If A is a Knave, then A's statement is false
+    Implication(AKnave, Not(And(AKnight, AKnave)))
 )
 
 # Puzzle 1
@@ -20,6 +26,15 @@ knowledge0 = And(
 # B says nothing.
 knowledge1 = And(
     # TODO
+    # A and B are either Knights or Knaves, but not both
+    Or(AKnight, AKnave),
+    Not(And(AKnight, AKnave)),
+    Or(BKnight, BKnave),
+    Not(And(BKnight, BKnave)),
+    # If A is a Knight, then A's statement is true
+    Implication(AKnight, And(AKnave, BKnave)),
+    # If A is a Knave, then A's statement is false
+    Implication(AKnave, Not(And(AKnave, BKnave)))
 )
 
 # Puzzle 2
@@ -27,6 +42,18 @@ knowledge1 = And(
 # B says "We are of different kinds."
 knowledge2 = And(
     # TODO
+Or(AKnight, AKnave),
+    Not(And(AKnight, AKnave)),
+    Or(BKnight, BKnave),
+    Not(And(BKnight, BKnave)),
+    # If A is a Knight, then A's statement is true
+    Implication(AKnight, Or(And(AKnight, BKnight), And(AKnave, BKnave))),
+    # If A is a Knave, then A's statement is false
+    Implication(AKnave, Not(Or(And(AKnight, BKnight), And(AKnave, BKnave)))),
+    # If B is a Knight, then B's statement is true
+    Implication(BKnight, Or(And(AKnight, BKnave), And(AKnave, BKnight))),
+    # If B is a Knave, then B's statement is false
+    Implication(BKnave, Not(Or(And(AKnight, BKnave), And(AKnave, BKnight))))
 )
 
 # Puzzle 3
@@ -36,6 +63,28 @@ knowledge2 = And(
 # C says "A is a knight."
 knowledge3 = And(
     # TODO
+Or(AKnight, AKnave),
+    Not(And(AKnight, AKnave)),
+    Or(BKnight, BKnave),
+    Not(And(BKnight, BKnave)),
+    Or(CKnight, CKnave),
+    Not(And(CKnight, CKnave)),
+    # A's statement
+    # (this needs to be expanded based on the rest of the puzzle context)
+    # B's statements
+    Implication(BKnight, And(
+        # B says A said "I am a knave."
+        Biconditional(AKnave, AKnave),
+        # B says C is a knave.
+        CKnave
+    )),
+    Implication(BKnave, Or(
+        Not(Biconditional(AKnave, AKnave)),
+        Not(CKnave)
+    )),
+    # C's statement
+    Implication(CKnight, AKnight),
+    Implication(CKnave, Not(AKnight))
 )
 
 
