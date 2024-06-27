@@ -71,6 +71,10 @@ Or(AKnight, AKnave),
     Not(And(CKnight, CKnave)),
     # A's statement
     # (this needs to be expanded based on the rest of the puzzle context)
+    Implication(AKnight, Or(AKnight, AKnave)),
+    # If A is a Knave, A's statement "I am a knight or I am a knave" is false
+    Implication(AKnave, Not(Or(AKnight, AKnave))),
+
     # B's statements
     Implication(BKnight, And(
         # B says A said "I am a knave."
